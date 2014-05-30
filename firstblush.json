@@ -1,0 +1,16 @@
+runner({
+    rules : [
+        {
+            name    :   "cholesterol",
+            pattern :   "cholesterol",
+            color   :   "#DDAAAA",
+            explain :   "This has been suggested as a word you should pay attention to",
+        },
+        {
+            name    :   "cheese",
+            pattern :   "cheese",
+            color   :   "#DDDDAA",
+            explain :   "This has been suggested as a word you should pay attention to",
+        },
+    ]
+});

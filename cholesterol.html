@@ -1,0 +1,60 @@
+<html>
+    <head>
+    	<script>
+
+(function() {
+
+function markup(re, color, title) {
+    var re = new RegExp(re);
+    var color = color;
+    var title = title;
+    var i, replacer, fillers, element;
+
+    var walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
+    replacer = [];
+    while(walk.nextNode()) {
+        df = document.createDocumentFragment();
+        fillers = walk.currentNode.nodeValue.split(re);
+        while (m = re.exec(walk.currentNode.nodeValue)) {
+            if (m.index !== 0) {
+                df.appendChild(document.createTextNode(fillers.shift()));
+            }
+            element = document.createElement('span');
+            element.style.backgroundColor = color;
+            element.style.cursor = 'default';
+            element.title = title;
+            element.appendChild(document.createTextNode(m[0]));
+            df.appendChild(element);
+        }
+        while (i = fillers.shift()) {
+            df.appendChild(document.createTextNode(i));
+        }
+        replacer.push([df, walk.currentNode]);
+    }
+
+    while(i = replacer.shift()) {
+        i[1].parentNode.replaceChild(i[0], i[1]);
+    }
+}
+
+function runner(data) {
+    console.log("runner running with data: ", data);
+    var i, rules = data.rules;
+    for (i in rules) {
+        markup(rules[i].pattern, rules[i].color, rules[i].title);
+    }
+}
+
+var script = document.createElement('script');
+script.src = 'http://127.0.0.1:9876/firstblush.json?function=runner';
+document.getElementsByTagName('head')[0].appendChild(script);
+console.log("I actually did something");
+
+})(); void(0);
+
+    	</script>
+    </head>
+    <body>
+    <div>Blah blah I like cholesterol. Blah blah. I don't like cholesterol. Cholesterol smells funny. This is some text about Cholesterol.</div>
+    </body>
+</html>
