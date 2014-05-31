@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>FirstBlush</h1>
+        <h2>Page content at a glance</h2>
+        <div style='width: 500px;'>
+            <p>
+Words can be sneaky, sneaky beasties. Sometimes a lot sneakier than the person writing them.
+            </p>
+            <p>
+Some time ago, I became suspicious of the word "obvious". It didn't happen all at once, but slowly,
+over the course of many discussions and documents and email exchanges,
+I realised that when someone describes something as "obvious", it's often not obvious to everyone.
+On a suspicious number of occasions, the obviously obvious thing isn't even correct. People use the word
+"obvious" to express how confident they are of something a lot more than they use it to express how
+self-evidently apparent it is. I decided to be on my guard.
+            </p>
+            <p>
+A number of other words and phrases found their way onto this list of offenders: "surely",
+"just", "only a little". If I found someone using one of these, (and especially if I found myself
+using them), I would subject that sentence to a little bit more scrutiny. Most of the time it
+wouldn't turn up anything fishy, but there were certainly enough fish to make me want these
+words to stand out in big flashing lights.
+            </p>
+            <p>
+I read a lot. I read when I'm tired and I read when I'm distracted, and sometimes I want a little
+extra help in elevating certain words, phrases, or patterns of language to my attention. By
+good fortune, most of what I read is in a web browser, and it's a lot easier to get the browser
+to highlight text automatically than it is to manually go through a hardcopy and underline all
+the offending vocabulary. I tried a few existing utilities, but they weren't quite what I wanted.
+Fortunately I'm a web developer, (as you can no doubt tell from this space-age, bleeding-edge webpage),
+so I set about making my own solution.
+            </p>
+            <p>
+FirstBlush is what I ended up with. It's a mish-mash of bookmarklets, browser scripts,
+jsonp and local browser storage that handles highlighting words and phrases.
+<!--
+<a href="javascript: (function () {
+    var firstBlush = document.getElementById('firstblush_js');
+    if (typeof firstblush !== 'undefined') {
+        firstBlush.parentNode.removeChild(firstBlush);
+    }
+    firstBlush = document.createElement('script');
+    firstBlush.setAttribute('src', './firstblush.js');
+    firstBlush.setAttribute('id', 'firstblush_js');
+  document.body.appendChild(firstBlush);
+ }());">-->
+<a href='javascript: (function(){function t(e,t,n,r){var e=new RegExp(e,t);var n=n;var r=r;var i,s,o,u;var a=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);s=[];while(a.nextNode()){df=document.createDocumentFragment();o=a.currentNode.nodeValue.split(e);while(m=e.exec(a.currentNode.nodeValue)){if(m.index!==0){df.appendChild(document.createTextNode(o.shift()))}u=document.createElement("span");u.style.backgroundColor=n;u.style.cursor="default";u.title=r;u.className="firstblush_markup";u.appendChild(document.createTextNode(m[0]));df.appendChild(u)}while(i=o.shift()){df.appendChild(document.createTextNode(i))}s.push([df,a.currentNode])}while(i=s.shift()){i[1].parentNode.replaceChild(i[0],i[1])}}var e;window.ruleset=typeof window.ruleset!=="undefined"?window.ruleset:[];window.ruleset.push({name:"FirstBlush",origin:"FirstBlush Internal Example",pattern:"firstblush",flags:"gi",color:"#EEAAAA",title:"FirstBlush is a splendid utility for highlighting words and phrases in your browser"});for(e in window.ruleset){t(window.ruleset[e].pattern,window.ruleset[e].flags,window.ruleset[e].color,window.ruleset[e].title)}})();'>
+Clicking here</a>, for example, is a bit of a vanity highlight of all instances of "firstblush".
+Not just on this page, but on any page where you click that link. If you drag and drop the link
+on your shortcut bar, you can highlight that word on any document at your leisure. <a href='javascript: (function(){function t(e,t,n,r){var e=new RegExp(e,t);var n=n;var r=r;var i,s,o,u;var a=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);s=[];while(a.nextNode()){df=document.createDocumentFragment();o=a.currentNode.nodeValue.split(e);while(m=e.exec(a.currentNode.nodeValue)){if(m.index!==0){df.appendChild(document.createTextNode(o.shift()))}u=document.createElement("span");u.style.backgroundColor=n;u.style.cursor="default";u.title=r;u.className="firstblush_markup";u.appendChild(document.createTextNode(m[0]));df.appendChild(u)}while(i=o.shift()){df.appendChild(document.createTextNode(i))}s.push([df,a.currentNode])}while(i=s.shift()){i[1].parentNode.replaceChild(i[0],i[1])}}var e;window.ruleset=typeof window.ruleset!=="undefined"?window.ruleset:[];window.ruleset.push({name:"N-words",origin:"FirstBlush Internal Example",pattern:"\\b[\\w\\p]*n[\\w\\p]*\\b",flags:"gi",color:"#AAAAEE",title:"This word includes the letter n"});for(e in window.ruleset){t(window.ruleset[e].pattern,window.ruleset[e].flags,window.ruleset[e].color,window.ruleset[e].title)}})()'>
+This one</a> will highlight all words that include the letter 'n'. <a href='javascript: (function(){window.ruleset=[];var e=document.getElementsByClassName("firstblush_markup");var t=[];for(var n in e){var r=e[n].textContent;t.push([document.createTextNode(r),e[n]])}while(n=t.shift()){if(typeof n[1].parentNode!=="undefined"){n[1].parentNode.replaceChild(n[0],n[1])}}})();'>
+This one</a> will clear them all away.
+            </p>
+            <p>
+
+            </p>
+        </div>
+    </body>
+</html>
