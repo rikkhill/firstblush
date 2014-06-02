@@ -9,7 +9,7 @@
     var script, id = "d629aa";
 
     // Clear all of these markups
-    function clearAll() {
+    clearAll = function() {
         var elements = document.getElementsByClassName(id);
         var replacer = [];
         for (var i in elements) {
@@ -26,7 +26,8 @@
 
     // Walk the document tree and mark up all matches to the regex `re` 
     function markup(rule, class_name) {
-        var re = new RegExp(rule.pattern, rule.flags);
+        var pattern = rule.pattern;
+        var re = new RegExp(pattern, rule.flags);
         var color = rule.color;
         var explain = rule.explain;
         var class_name = class_name
@@ -61,14 +62,16 @@
     }
 
     // Process json-p 
-    function blush(json) {
+    blush = function(json) {
         var i, return_data;
         // Only run it if it parses as JSON
         try {
-            return_data = JSON.parse(json);
+            return_data = JSON.stringify(json);
+            return_data = JSON.parse(return_data);
         } catch(e) {
             return_data = {};
         }
+
         // If it's got metadata, assume it's legit
         if (typeof return_data.meta !== typeof undefined) {
             for (i in return_data.rules) {
@@ -79,12 +82,14 @@
 
     // Toggle highlighting based on existence of script tag
     script = document.getElementById(id);
-    if (script.length > 0) {
+    if (script !== null) {
+        document.body.removeChild(script);
         clearAll();
     }
     else {
         script = document.createElement('script');
         script.setAttribute('src', './sanitycheck.js');
+        script.setAttribute('id', id);
         document.body.appendChild(script);
     }
 })();
