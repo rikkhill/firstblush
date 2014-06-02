@@ -66,7 +66,7 @@
         // Only run it if it parses as JSON
         try {
             return_data = JSON.parse(json);
-        } catch {
+        } catch(e) {
             return_data = {};
         }
         // If it's got metadata, assume it's legit
