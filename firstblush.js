@@ -7,6 +7,7 @@
 (function() {
 
     var script, id = "d629aa";
+    var startTime = new Date().getTime();
 
     // Clear all of these markups
     clearAll = function() {
@@ -18,7 +19,7 @@
         }
 
         while (i = replacer.shift()) {
-        	if(typeof i[1].parentNode !== typeof undefined) {
+            if(typeof i[1].parentNode !== typeof undefined) {
                 i[1].parentNode.replaceChild(i[0], i[1]);
             }
         }
@@ -38,6 +39,9 @@
         while(walk.nextNode()) {
             df = document.createDocumentFragment();
             fillers = walk.currentNode.nodeValue.split(re);
+            if(fillers.length <= 1) {
+                continue;
+            }
             while (m = re.exec(walk.currentNode.nodeValue)) {
                 if (m.index !== 0) {
                     df.appendChild(document.createTextNode(fillers.shift()));
@@ -88,8 +92,10 @@
     }
     else {
         script = document.createElement('script');
-        script.setAttribute('src', './sanitycheck.js');
+        script.setAttribute('src', 'http://assets.intellectuallusts.com/firstblush/sanitycheck.js');
         script.setAttribute('id', id);
         document.body.appendChild(script);
     }
+    
+    console.log(new Date().getTime() -  startTime);
 })();
