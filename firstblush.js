@@ -2,28 +2,35 @@
 //    v0.1
 //
 
-function clearAll() {
-    var elements = document.getElementsByClassName('firstblush_markup');
-    var replacer = [];
-    for (var i in elements) {
-        var text = elements[i].textContent;
-        replacer.push([document.createTextNode(text), elements[i]]);
-    }
-    
-    while (i = replacer.shift()) {
-    	if(typeof i[1].parentNode !== 'undefined') {
-            i[1].parentNode.replaceChild(i[0], i[1]);
-        }
-    }
-}
+
 
 (function() {
-    var i;
+
+    var script, id = "d629aa";
+
+    // Clear all of these markups
+    clearAll = function() {
+        var elements = document.getElementsByClassName(id);
+        var replacer = [];
+        for (var i in elements) {
+            var text = elements[i].textContent;
+            replacer.push([document.createTextNode(text), elements[i]]);
+        }
+
+        while (i = replacer.shift()) {
+        	if(typeof i[1].parentNode !== typeof undefined) {
+                i[1].parentNode.replaceChild(i[0], i[1]);
+            }
+        }
+    }
+
     // Walk the document tree and mark up all matches to the regex `re` 
-    function markup(re, flags, color, title) {
-        var re = new RegExp(re, flags);
-        var color = color;
-        var title = title;
+    function markup(rule, class_name) {
+        var pattern = rule.pattern;
+        var re = new RegExp(pattern, rule.flags);
+        var color = rule.color;
+        var explain = rule.explain;
+        var class_name = class_name
         var i, replacer, fillers, element;
 
         var walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
@@ -38,8 +45,8 @@ function clearAll() {
                 element = document.createElement('span');
                 element.style.backgroundColor = color;
                 element.style.cursor = 'default';
-                element.title = title;
-                element.className = "firstblush_markup";
+                element.title = explain;
+                element.className = "firstblush_markup " + class_name;
                 element.appendChild(document.createTextNode(m[0]));
                 df.appendChild(element);
             }
@@ -54,26 +61,35 @@ function clearAll() {
         }
     }
 
-    // If the ruleset doesn't exist already, create it as an empty array
-    window.ruleset = typeof window.ruleset !== 'undefined' ? window.ruleset : [];
-    
-    // Test ruleset
-    window.ruleset.push({
-    	name    : "FirstBlush",
-    	origin	: "FirstBlush Internal Example",
-    	pattern : "firstblush",
-    	flags   : "gi",
-    	color   : "#EEAAAA",
-    	title   : "FirstBlush is a splendid utility for highlighting words and phrases in your browser",
-    });
-    
-    for (i in window.ruleset) {
-        markup(
-            window.ruleset[i].pattern,
-            window.ruleset[i].flags,
-            window.ruleset[i].color,
-            window.ruleset[i].title
-        );
+    // Process json-p 
+    blush = function(json) {
+        var i, return_data;
+        // Only run it if it parses as JSON
+        try {
+            return_data = JSON.stringify(json);
+            return_data = JSON.parse(return_data);
+        } catch(e) {
+            return_data = {};
+        }
+
+        // If it's got metadata, assume it's legit
+        if (typeof return_data.meta !== typeof undefined) {
+            for (i in return_data.rules) {
+                markup(return_data.rules[i], id);
+            }
+        }
     }
 
+    // Toggle highlighting based on existence of script tag
+    script = document.getElementById(id);
+    if (script !== null) {
+        document.body.removeChild(script);
+        clearAll();
+    }
+    else {
+        script = document.createElement('script');
+        script.setAttribute('src', './sanitycheck.js');
+        script.setAttribute('id', id);
+        document.body.appendChild(script);
+    }
 })();
