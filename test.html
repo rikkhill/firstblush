@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <title></title>
+
+<script type='text/javascript'>
+    var replacer = [];
+highlight = function(text) {
+    var re = RegExp('\\b[\\w\\p]*n[\\w\\p]*\\b', 'gi');
+    // Put some test here that tests for the pattern but doesn't
+    // mess up the ordering of matches.
+    if (false) {
+        return false;
+    }
+
+    var df, fillers, filling, element;
+    df = document.createDocumentFragment();
+    fillers = text.split(re); // All non-matching pieces of `text`
+
+    while (filling = re.exec(text)) {
+    console.log(filling, filling.index);
+        if(filling.index !== 0) {
+            df.appendChild(document.createTextNode(fillers.shift()));
+        }
+        element = document.createElement('span');
+        element.style.backgroundColor = '#aaaaee';
+        element.appendChild(document.createTextNode(filling[0]));
+        df.appendChild(element);
+    }
+    while (i = fillers.shift()) {
+        df.appendChild(document.createTextNode(i));
+    }
+    return df;
+}
+
+// Recursively find all text nodes
+recurse = function(myNode) {
+    var i, block = myNode.childNodes
+    for (var i in block) {
+        if (block[i].nodeType == 3) {
+            var newNode = highlight(block[i].nodeValue, block[i].length);
+            if (newNode) {
+                replacer.push([ block[i], newNode ]);
+            }
+        } else {
+            recurse(block[i]);
+        }
+    }
+}
+
+actionThis = function() {
+    recurse(document.body);
+    while (i = replacer.shift()) {
+        i[0].parentNode.replaceChild(i[1], i[0]);
+    }
+}
+
+</script>
+    </head>
+    <body>
+        <h1 onclick='actionThis()'>FirstBlush</h1>
+        <h2>Page content at a glance</h2>
+        <div style='width: 500px;'>
+            <p>
+Words can be sneaky, sneaky beasties. Sometimes a lot sneakier than the person writing them.
+            </p>
+            <p>
+Some time ago, I became suspicious of the word "obvious". It didn't happen all at once, but slowly,
+over the course of many discussions and documents and email exchanges,
+I realised that when someone describes something as "obvious", it's often not obvious to everyone.
+On a suspicious number of occasions, the obviously obvious thing isn't even correct. People use the word
+"obvious" to express how confident they are of something a lot more than they use it to express how
+self-evidently apparent it is. I decided to be on my guard.
+            </p>
+            <p>
+A number of other words and phrases found their way onto this list of offenders: "surely";
+"just"; "only a little"; "everyone knows". If I found someone using one of these, (and especially if I found myself
+using them), I would subject that sentence to a little bit more scrutiny. Most of the time it
+wouldn't turn up anything fishy, but there were certainly enough fish to make me want these
+words to stand out in big flashing lights.
+            </p>
+            <p>
+I read a lot. I read when I'm tired and I read when I'm distracted, and sometimes I want a little
+extra help in elevating certain words, phrases, or patterns of language to my attention. By
+good fortune, most of what I read is in a web browser, and it's a lot easier to get the browser
+to highlight text automatically than it is to manually go through a hardcopy and underline all
+the offending vocabulary. I tried a few existing utilities, but they weren't quite what I wanted.
+Fortunately I'm a web developer, (as you can no doubt tell from this space-age, bleeding-edge webpage),
+so I set about making my own solution.
+            </p>
+            <p>
+FirstBlush is what I'm currently working on to accomplish this task.
+<!--
+<a href="javascript: (function () {
+    var firstBlush = document.getElementById('firstblush_js');
+    if (typeof firstblush !== 'undefined') {
+        firstBlush.parentNode.removeChild(firstBlush);
+    }
+    firstBlush = document.createElement('script');
+    firstBlush.setAttribute('src', './firstblush.js');
+    firstBlush.setAttribute('id', 'firstblush_js');
+  document.body.appendChild(firstBlush);
+ }());">-->
+<a href='javascript: (function(){function t(e,t,n,r){var e=new RegExp(e,t);var n=n;var r=r;var i,s,o,u;var a=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);s=[];while(a.nextNode()){df=document.createDocumentFragment();o=a.currentNode.nodeValue.split(e);while(m=e.exec(a.currentNode.nodeValue)){if(m.index!==0){df.appendChild(document.createTextNode(o.shift()))}u=document.createElement("span");u.style.backgroundColor=n;u.style.cursor="default";u.title=r;u.className="firstblush_markup";u.appendChild(document.createTextNode(m[0]));df.appendChild(u)}while(i=o.shift()){df.appendChild(document.createTextNode(i))}s.push([df,a.currentNode])}while(i=s.shift()){i[1].parentNode.replaceChild(i[0],i[1])}}var e;window.ruleset=typeof window.ruleset!=="undefined"?window.ruleset:[];window.ruleset.push({name:"FirstBlush",origin:"FirstBlush Internal Example",pattern:"firstblush",flags:"gi",color:"#EEAAAA",title:"FirstBlush is a splendid utility for highlighting words and phrases in your browser"});for(e in window.ruleset){t(window.ruleset[e].pattern,window.ruleset[e].flags,window.ruleset[e].color,window.ruleset[e].title)}})();'>
+Clicking here</a> will cause a vain highlight of all instances of "firstblush".
+It's worth mentioning that it doesn't just work on this page, but on any page where you click that link. If you drag and drop the link
+on your shortcut bar, you can highlight that word on any document at your leisure. <a href='javascript: (function(){function t(e,t,n,r){var e=new RegExp(e,t);var n=n;var r=r;var i,s,o,u;var a=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);s=[];while(a.nextNode()){df=document.createDocumentFragment();o=a.currentNode.nodeValue.split(e);while(m=e.exec(a.currentNode.nodeValue)){if(m.index!==0){df.appendChild(document.createTextNode(o.shift()))}u=document.createElement("span");u.style.backgroundColor=n;u.style.cursor="default";u.title=r;u.className="firstblush_markup";u.appendChild(document.createTextNode(m[0]));df.appendChild(u)}while(i=o.shift()){df.appendChild(document.createTextNode(i))}s.push([df,a.currentNode])}while(i=s.shift()){i[1].parentNode.replaceChild(i[0],i[1])}}var e;window.ruleset=typeof window.ruleset!=="undefined"?window.ruleset:[];window.ruleset.push({name:"N-words",origin:"FirstBlush Internal Example",pattern:"\\b[\\w\\p]*n[\\w\\p]*\\b",flags:"gi",color:"#AAAAEE",title:"This word includes the letter n"});for(e in window.ruleset){t(window.ruleset[e].pattern,window.ruleset[e].flags,window.ruleset[e].color,window.ruleset[e].title)}})()'>
+This one</a> will highlight all words that include the letter 'n'. <a href='javascript: (function(){window.ruleset=[];var e=document.getElementsByClassName("firstblush_markup");var t=[];for(var n in e){var r=e[n].textContent;t.push([document.createTextNode(r),e[n]])}while(n=t.shift()){if(typeof n[1].parentNode!=="undefined"){n[1].parentNode.replaceChild(n[0],n[1])}}})();'>
+This one</a> will clear all highlights away.
+            </p>
+            <p>
+At the moment it's just a bookmarklet that takes a standardised set of rules and uses them to
+highlight text in the browser, but there's a lot of potential with it. I'd like to make it easy
+to publish curated sources of these rules that users could subscribe to. I'd like to use persistent
+local storage in the browser to let people flag up words on specific websites. It should be
+possible further down the line to use the highlighting process to provide summary statistics
+on language use in the page being viewed. There are a lot of places this can go.
+            </p>
+        </div>
+    </body>
+</html>
