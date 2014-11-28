@@ -6,6 +6,12 @@
 
 // Misc. DOM stuff
 
+// Number of characters in the body
+// A quick and dirty way of estimating the amount of work needed
+var bodySize = function() {
+    return (new XMLSerializer()).serializeToString(document.body).length;
+}
+
 // Highlighter engine
 
 var blush = function(ruleset) {
